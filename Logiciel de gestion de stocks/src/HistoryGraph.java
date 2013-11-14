@@ -119,10 +119,6 @@ public class HistoryGraph extends Canvas {
 		for(Category c:this.rootCategory.getChildren()){
 			Product p = (Product)c;
 			System.out.println("Niveau de " + p.getName() + ": " + p.getCurrentQuantity());
-			HashMap<Date,Double> catQ = computeCategoryQuantities(c);
-			for(Date d:catQ.keySet()){
-				System.out.println(d+ "  " + catQ.get(d));
-			}
 		}
 	}
 	
