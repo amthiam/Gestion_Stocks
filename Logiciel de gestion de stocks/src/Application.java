@@ -34,7 +34,6 @@ public class Application extends Frame {
 		this.setVisible(true);
 		
 		Graphics g = this.getGraphics();
-		/*
 		while(true){
 			graphe.update(g);
 			try {
@@ -44,8 +43,8 @@ public class Application extends Frame {
 				e.printStackTrace();
 			}
 		}
-		*/
-		fruits.afficherPrix(fruits);
+		
+		//fruits.afficherPrix(fruits);
 
 	}
 	

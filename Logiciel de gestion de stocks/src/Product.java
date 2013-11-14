@@ -60,5 +60,9 @@ public class Product extends Category{
 	public Double getCurrentQuantity() {
 		return currentQuantity;
 	}
+
+	public double getQuantityLevelOnDate(Date d) {
+		return quantityLevels.get(d);
+	}
 	
 }
