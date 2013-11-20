@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 
 
@@ -23,6 +24,7 @@ public class Product extends Category{
 		this.price = p;
 		this.currentQuantity = currentQ;
 		quantityLevels = new HashMap<Date,Double>();
+		quantityLevels.put(Calendar.getInstance().getTime(), currentQ);
 	}
 	
 	public Double getPrice() {
@@ -62,7 +64,21 @@ public class Product extends Category{
 	}
 
 	public double getQuantityLevelOnDate(Date d) {
-		return quantityLevels.get(d);
+		System.out.println("Liste des historiques pour le produit" + this.getName());
+		for(Date date:quantityLevels.keySet()){
+			System.out.println(date.getTime());
+			System.out.println(d.getTime());
+		}
+		try{
+			return quantityLevels.get(d);
+		}
+		catch(Exception e){
+			System.out.println("Erreur:" + e.getMessage());
+			if(!quantityLevels.containsKey(d)){
+				System.out.println("La date " + d + " n'est pas dans l'historique...");
+			}
+			return 0;
+		}
 	}
 	
 }
