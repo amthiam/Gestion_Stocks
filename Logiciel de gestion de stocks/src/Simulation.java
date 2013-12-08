@@ -1,34 +1,15 @@
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
-public class Simulation implements Runnable{
+public class Simulation{
 	List<Product> listOfProducts;
-	final int simulationSpeed = 3;	//nombre d'appels à simulationStep par seconde
-	Date simulationDate;
-	Calendar cal;
+	int simulationSpeed = 3;	//nombre d'appels à simulationStep par seconde
+	int simulationDate;
+	boolean active = false;		//Boolean à vrai si la simulation tourne
 	
 	public Simulation(){
 		listOfProducts = new ArrayList<Product>();
-		simulationDate = new Date();
-		cal = Calendar.getInstance();
-	}
-	
-	public Simulation(String startingDate){
-		this();
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		try {
-			simulationDate = df.parse(startingDate);
-			cal.setTime(simulationDate);
-		} catch (ParseException e) {
-			System.out.println("Error: the date " + startingDate + " is not of the expected format");
-			e.printStackTrace();
-		}
+		simulationDate = 0;
 	}
 
 	/**
@@ -52,72 +33,77 @@ public class Simulation implements Runnable{
 	public void removeProduct(Product p){
 		this.listOfProducts.remove(p);
 	}
-	/*
+	
 	public void addProductsOfCategory(Category category){
+		boolean isProduct = true;
 		for(Category c:category.getChildren()){
-			if()
+			isProduct = false;
+			addProductsOfCategory(c);
+		}
+		if(isProduct){
+			addProduct((Product)category);
 		}
 	}
-	*/
+	
 	public void run(){
 		while(true){
-			System.out.println("Simulation step...");
 			try {
 				Thread.sleep((long)(1.0/(double)simulationSpeed*1000.0));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {
 				simulationStep();
 			} catch (QuantityHigherThanAvailabilityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	public void simulationStep() throws QuantityHigherThanAvailabilityException{
-		cal.add(Calendar.DAY_OF_MONTH, 1);
-		simulationDate = cal.getTime();
-		for(Product p:this.listOfProducts){
-			p.sell(Math.random()*10, simulationDate);
+		if(active){
+			for(Product p:this.listOfProducts){
+				p.sell(Math.random()*10.0, simulationDate);
+			}
+			simulationDate++;
 		}
-		System.out.println("simDate:" + simulationDate);
+		else{
+			//TODO Exception to throw
+		}
 	}
 	
 	/**
 	 * @return the simulationDate
 	 */
-	public Date getSimulationDate() {
+	public int getSimulationDate() {
 		return simulationDate;
 	}
 
 	/**
 	 * @param simulationDate the simulationDate to set
 	 */
-	public void setSimulationDate(Date simulationDate) {
+	public void setSimulationDate(int simulationDate) {
 		this.simulationDate = simulationDate;
 	}
 
-	/**
-	 * @return the cal
-	 */
-	public Calendar getCal() {
-		return cal;
-	}
-
-	/**
-	 * @param cal the cal to set
-	 */
-	public void setCal(Calendar cal) {
-		this.cal = cal;
-	}
 
 	/**
 	 * @return the simulationSpeed
 	 */
 	public int getSimulationSpeed() {
 		return simulationSpeed;
+	}
+
+	public boolean startPause() {
+		active = !active;
+		return active;
+	}
+
+	public void stopSimulation() {
+		active = false;
+	}
+
+	public void setSimulationSpeed(int value) {
+		this.simulationSpeed = value;
 	}
 }

@@ -4,12 +4,14 @@ import javax.swing.*;
 import java.util.Date;
 
 
-public class Application extends JFrame implements ActionListener {
-	HomeScreen homeScreen;
-	GestionnaireStructure structureManagerScreen;
-	Stats statsScreen;
-	String requiredScreen;
-	String formerScreen;
+public final class Application extends JFrame implements ActionListener {
+	protected HomeScreen homeScreen;
+	protected StructureManagerWindow structureManagerScreen;
+	protected Stats statsScreen;
+	protected String requiredScreen;
+	protected String formerScreen;
+	protected Simulation sim;
+	public Category magasin;
 	
 	public Application(){
 		//Titre de la fenêtre de l'application
@@ -36,23 +38,25 @@ public class Application extends JFrame implements ActionListener {
 		fruits.addChild(clementine);
 		
 		//Magasin
-		Category magasin = new Category("Magasin");
+		magasin = new Category("Magasin");
 		magasin.addChild(fruits);
 		magasin.addChild(yahourts);
 		
 		//Simulation
-		Simulation sim = new Simulation();
+		sim = new Simulation();
 		sim.addProduct(banane);
 		sim.addProduct(cerise);
 		sim.addProduct(clementine);
+		/*
 		Thread t = new Thread(sim);
 		t.start();
+		*/
 		
 		//Ecran d'accueil
 		homeScreen = new HomeScreen(this);
 		
 		//Ecran du gestionnaire de structure
-		structureManagerScreen = new GestionnaireStructure(this);
+		structureManagerScreen = new StructureManagerWindow(this, magasin);
 		
 		//Ecran des stats
 		statsScreen = new Stats(this);
@@ -65,11 +69,13 @@ public class Application extends JFrame implements ActionListener {
 			if(!formerScreen.equals(requiredScreen)){
 				this.getContentPane().removeAll();
 				if(requiredScreen.equals("Home Screen")){
+					homeScreen.activate();
 					homeScreen.setVisible(true);
 					this.getContentPane().add(homeScreen);
 					formerScreen = "Home Screen";
 				}
 				else if(requiredScreen.equals("Structure Manager")){
+					structureManagerScreen.activate();
 					this.getContentPane().add(structureManagerScreen);
 					structureManagerScreen.setVisible(true);
 					this.setVisible(true);
@@ -79,36 +85,11 @@ public class Application extends JFrame implements ActionListener {
 					this.getContentPane().add(statsScreen);
 					statsScreen.setVisible(true);
 					this.setVisible(true);
+					statsScreen.activate();
 					formerScreen = "Stats Screen";
 				}
 			}
 		}
-		
-		//Affichage des statistiques
-		/*
-		HistoryGraph graphe = new HistoryGraph(fruits);
-		graphe.setEndDate(sim.getSimulationDate());
-		graphe.setStartDate((Date)sim.getSimulationDate().clone());
-		graphe.setVisible(true);
-		graphe.setLocation(100, 100);
-		this.add(graphe);
-		this.setVisible(true);
-		
-		while(true){
-			graphe.setEndDate(sim.getSimulationDate());
-			graphe.setVisible(true);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
-		
-		//fruits.afficherPrix(fruits);
-		
-
 	}
 	
 	public static void main(String[] args) {
@@ -123,12 +104,34 @@ public class Application extends JFrame implements ActionListener {
 		}
 		else if(b==homeScreen.getGoToStatsButton()){
 			this.requiredScreen = "Stats Screen";
-		}
+		}/*
 		else if(b==structureManagerScreen.getGetBackButton()){
 			this.requiredScreen = "Home Screen";
-		}
+		}*/
 		else if(b==statsScreen.getGetBackButton()){
 			this.requiredScreen = "Home Screen";
 		}
+	}
+
+	public int getSimulationDate() {
+		return sim.getSimulationDate();
+	}
+	
+	public Simulation getSim(){
+		return sim;
+	}
+
+	/**
+	 * @return the magasin
+	 */
+	public Category getMagasin() {
+		return magasin;
+	}
+
+	/**
+	 * @param magasin the magasin to set
+	 */
+	public void setMagasin(Category magasin) {
+		this.magasin = magasin;
 	}
 }

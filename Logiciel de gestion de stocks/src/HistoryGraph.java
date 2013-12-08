@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,51 +10,49 @@ import java.util.TreeMap;
 
 
 public class HistoryGraph extends Canvas {
-	protected Category rootCategory;
-	protected Calendar cal;
-	protected Calendar startDate, endDate;	//On affiche les données entre les dates startDate et endDate.
+	protected ArrayList<Category> categoriesToShow;
+	protected int nbDays, endDate;	//On affiche les données entre les dates startDate et endDate.
 	
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
-		return startDate.getTime();
+	public int getNbDays() {
+		return nbDays;
 	}
 
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
-		this.startDate.setTime(startDate);
+	public void setNbDays(int startDate) {
+		this.nbDays = startDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Date getEndDate() {
-		return endDate.getTime();
+	public int getEndDate() {
+		return endDate;
 	}
 
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
-		this.endDate.setTime(endDate);
+	public void setEndDate(int endDate) {
+		this.endDate = endDate;
 	}
 
-	public HistoryGraph(Category rootC){
-		this.rootCategory = rootC;
-		this.cal = Calendar.getInstance();
-		startDate = Calendar.getInstance();
-		endDate = Calendar.getInstance();
+	public HistoryGraph(){
+		categoriesToShow = new ArrayList<Category>();
+		nbDays=20;
+		endDate = 0;
 	}
 
-	public void setCategory(Category cat) {
-		this.rootCategory = cat;
+	public void addCategoryToShow(Category cat) {
+		categoriesToShow.add(cat);
 	}
 	
 	public Dimension getMinimumSize(){
-		return new Dimension(400, 200);
+		return new Dimension(700, 400);
 	}
 	
 	public Dimension getMaximumSize(){
@@ -70,7 +69,7 @@ public class HistoryGraph extends Canvas {
 	 * @param c La catégorie
 	 * @return La somme des quantités des articles de la catégorie à la date d.
 	 */
-	public double computeTotalQuantities(Date d, Category c){
+	public double computeTotalQuantities(int d, Category c){
 		if(c.getChildren().size()==0){
 				Product p = (Product)c;
 				return p.getQuantityLevelOnDate(d);
@@ -89,31 +88,12 @@ public class HistoryGraph extends Canvas {
 	 * @param c La catégorie dont on souhaite calculer les quantités pour chacune des dates
 	 * @return un HashMap qui à une date associe une quantité
 	 */
-	public TreeMap<Date,Double> computeCategoryQuantities(Category c){
-		TreeMap<Date,Double> categoryQuantities = new TreeMap<Date,Double>();
-		for(Date d:getDatesBetweenStartAndEndDates(startDate,endDate)){
-			System.out.println(startDate.getTime()+ ";" + endDate.getTime());
-			System.out.println("--------------------------------------"+d);
+	public TreeMap<Integer,Double> computeCategoryQuantities(Category c){
+		TreeMap<Integer,Double> categoryQuantities = new TreeMap<Integer,Double>();
+		for(int d=Math.max(0,endDate-nbDays);d<=endDate;d++){
 			categoryQuantities.put(d, computeTotalQuantities(d,c));
 		}
 		return categoryQuantities;
-	}
-	
-	
-	/**
-	 * @param sDate Date de début (incluse)
-	 * @param eDate Date de fin (incluse)
-	 * @return Liste des dates comprises entre la date de début et la date de fin
-	 */
-	public List<Date> getDatesBetweenStartAndEndDates(Calendar sDate, Calendar eDate){
-		List<Date> dates = new LinkedList<Date>();
-		Calendar currentDate = Calendar.getInstance();
-		currentDate.setTime(sDate.getTime());
-		while(currentDate.compareTo(eDate)<=0){
-			dates.add(currentDate.getTime());
-			currentDate.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		return dates;
 	}
 	
 	public void paint(Graphics g){
@@ -121,19 +101,22 @@ public class HistoryGraph extends Canvas {
 		g.setColor(Color.black);
 		//On récupère la taille du canvas pour pouvoir dessiner dans les bonnes proportions
 		Dimension size = this.getSize();
-		TreeMap<Date,Double> dataToDraw = computeCategoryQuantities(rootCategory);
-		int xLast=0;
-		int yLast=0;
-		int x,y;
-		for(Date d:dataToDraw.keySet()){
-			Calendar c = Calendar.getInstance();
-			c.setTime(d);
-			x = (int)((double)(c.getTimeInMillis()-startDate.getTimeInMillis())/(double)(endDate.getTimeInMillis()-startDate.getTimeInMillis()+1)*size.getWidth());
-			y = (int)((double)(dataToDraw.get(d))/1500.0*size.getHeight());	//TODO 1500 doit être changé ici!
-			y = (int)size.getHeight() - y;
-			g.drawLine(xLast, yLast, x, y);
-			xLast = x;
-			yLast=y;
+		for(Category cat:categoriesToShow){
+			TreeMap<Integer,Double> dataToDraw = computeCategoryQuantities(cat);
+			int xLast=-1;
+			int yLast=0;
+			int x,y;
+			for(int d:dataToDraw.keySet()){
+				x = (int)((double)(d-endDate+nbDays)/(double)nbDays*size.getWidth());
+				y = (int)((double)(dataToDraw.get(d))/1500.0*size.getHeight());	//TODO 1500 doit être changé ici!
+				y = (int)size.getHeight() - y;
+				if(xLast != -1){
+					g.drawLine(xLast, yLast, x, y);
+					g.drawLine(xLast, yLast-1, x, y-1);
+				}
+				xLast = x;
+				yLast=y;
+			}
 		}
 	}
 	
@@ -141,7 +124,7 @@ public class HistoryGraph extends Canvas {
 	/*
 	 * Cette fonction dessine la grille, les axes, les échelles, la légende.
 	 */
-	public void drawBackground(Graphics g){
+	private void drawBackground(Graphics g){
 		g.setColor(Color.gray);		//TODO à rendre paramétrisable
 		Dimension size = this.getSize();
 		int w = (int)size.getWidth();
@@ -152,6 +135,10 @@ public class HistoryGraph extends Canvas {
 		for(int i=0;i<nbVertical;i++){
 			g.drawLine(0, i*intervalHeight, w, i*intervalHeight);
 		}
+	}
+
+	public void removeCategory(Category c) {
+		categoriesToShow.remove(c);
 	}
 	
 }

@@ -5,26 +5,25 @@ import java.util.HashMap;
 
 public class Product extends Category{
 	Double price;
-	HashMap<Date,Double> quantityLevels;
+	HashMap<Integer,Double> quantityLevels;
 	Double currentQuantity;
 
 	public Product(String n) {
 		super(n);
-		quantityLevels = new HashMap<Date,Double>();
+		quantityLevels = new HashMap<Integer,Double>();
 	}
 	
 	public Product(String n, Double p) {
 		super(n);
 		this.price = p;
-		quantityLevels = new HashMap<Date,Double>();
+		quantityLevels = new HashMap<Integer,Double>();
 	}
 	
 	public Product(String n, Double p, Double currentQ) {
 		super(n);
 		this.price = p;
 		this.currentQuantity = currentQ;
-		quantityLevels = new HashMap<Date,Double>();
-		quantityLevels.put(Calendar.getInstance().getTime(), currentQ);
+		quantityLevels = new HashMap<Integer,Double>();
 	}
 	
 	public Double getPrice() {
@@ -38,24 +37,24 @@ public class Product extends Category{
 	/**
 	 * @return the quantityLevels
 	 */
-	public HashMap<Date, Double> getQuantityLevels() {
+	public HashMap<Integer, Double> getQuantityLevels() {
 		return quantityLevels;
 	}
 
 	/**
 	 * @param quantityLevels the quantityLevels to set
 	 */
-	public void setQuantityLevels(HashMap<Date, Double> quantityLevels) {
+	public void setQuantityLevels(HashMap<Integer, Double> quantityLevels) {
 		this.quantityLevels = quantityLevels;
 	}
 
-	public void sell(double quantity, Date d) throws QuantityHigherThanAvailabilityException{
+	public void sell(double quantity, int simulationDate) throws QuantityHigherThanAvailabilityException{
 		if(quantity > currentQuantity){
 			throw new QuantityHigherThanAvailabilityException(quantity);
 		}
 		else{
 			this.currentQuantity -= quantity;
-			quantityLevels.put(d, this.currentQuantity);
+			quantityLevels.put(simulationDate, this.currentQuantity);
 		}
 	}
 
@@ -63,11 +62,11 @@ public class Product extends Category{
 		return currentQuantity;
 	}
 
-	public double getQuantityLevelOnDate(Date d) {
-		System.out.println("Liste des historiques pour le produit" + this.getName());
-		for(Date date:quantityLevels.keySet()){
-			System.out.println(date.getTime());
-			System.out.println(d.getTime());
+	public double getQuantityLevelOnDate(int d) {
+		System.out.println("Liste des historiques pour le produit " + this.getName());
+		for(int date:quantityLevels.keySet()){
+			System.out.println(date);
+			System.out.println(d);
 		}
 		try{
 			return quantityLevels.get(d);
