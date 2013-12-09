@@ -64,7 +64,7 @@ public final class Application extends JFrame implements ActionListener {
 					statsScreen.setVisible(true);
 					this.setVisible(true);
 					statsScreen.activate();
-					formerScreen = "Stats Screen";
+					formerScreen = "Stats Screen";fgf
 				}
 			}
 		}
