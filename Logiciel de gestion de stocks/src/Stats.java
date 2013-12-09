@@ -61,6 +61,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		//Ancienne version 		this.add(graphe);
 		graphe.setVisible(true);
 		graphScroll = new JScrollPane(graphe);
+		graphScroll.setSize(200,400);
 		graphScroll.setVisible(true);
 		this.add(graphScroll);
 		

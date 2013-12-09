@@ -8,13 +8,17 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+
 
 public class HistoryGraph extends Canvas {
 	protected ArrayList<Category> categoriesToShow;
 	protected int nbDays, endDate;	//On affiche les données entre les dates startDate et endDate.
+	protected static Color[] drawingColors = {Color.black, Color.blue, Color.red, Color.green, Color.orange, Color.white, Color.yellow,
+											Color.magenta, Color.pink, Color.cyan};
 	
 	/**
-	 * @return the startDate
+	 * @return the nbOfDays
 	 */
 	public int getNbDays() {
 		return nbDays;
@@ -48,11 +52,18 @@ public class HistoryGraph extends Canvas {
 	}
 
 	public void addCategoryToShow(Category cat) {
-		categoriesToShow.add(cat);
+		if(categoriesToShow.size() < drawingColors.length){
+			categoriesToShow.add(cat);
+		}
+		else{
+			String message = "Le nombre de produits et catégories pouvant être représentés sur le graphe se limite à " + drawingColors.length;
+			String title = "Ajout impossible!";
+			JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public Dimension getMinimumSize(){
-		return new Dimension(700, 400);
+		return new Dimension(300, 400);
 	}
 	
 	public Dimension getMaximumSize(){
@@ -71,18 +82,18 @@ public class HistoryGraph extends Canvas {
 	 */
 	public double computeTotalQuantities(int d, Category c){
 		if(c.getChildren().size()==0){
-				Product p = (Product)c;
-				return p.getQuantityLevelOnDate(d);
+			Product p = (Product)c;
+			return p.getQuantityLevelOnDate(d);
+		}
+		else{
+			double somme = 0.0;
+			for(Category cat:c.getChildren()){
+				somme += computeTotalQuantities(d, cat);
 			}
-			else{
-				double somme = 0.0;
-				for(Category cat:c.getChildren()){
-					somme += computeTotalQuantities(d, cat);
-				}
-				return somme;
-			}
+			return somme;
+		}
 	}
-	
+
 	
 	/**
 	 * @param c La catégorie dont on souhaite calculer les quantités pour chacune des dates
@@ -98,10 +109,10 @@ public class HistoryGraph extends Canvas {
 	
 	public void paint(Graphics g){
 		drawBackground(g);
-		g.setColor(Color.black);
 		//On récupère la taille du canvas pour pouvoir dessiner dans les bonnes proportions
 		Dimension size = this.getSize();
 		for(Category cat:categoriesToShow){
+			g.setColor(drawingColors[categoriesToShow.indexOf(cat)]);
 			TreeMap<Integer,Double> dataToDraw = computeCategoryQuantities(cat);
 			int xLast=-1;
 			int yLast=0;
@@ -112,7 +123,7 @@ public class HistoryGraph extends Canvas {
 				y = (int)size.getHeight() - y;
 				if(xLast != -1){
 					g.drawLine(xLast, yLast, x, y);
-					g.drawLine(xLast, yLast-1, x, y-1);
+					//g.drawLine(xLast, yLast-1, x, y-1);
 				}
 				xLast = x;
 				yLast=y;

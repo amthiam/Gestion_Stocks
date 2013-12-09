@@ -1,41 +1,100 @@
-import javax.swing.JFrame;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 
 
 
-public class AddProductWindow extends JFrame {
+public class AddProductWindow extends JFrame implements ActionListener{
+		StructureManagerWindow manager;
+		Category cat;
+		JButton okButton, cancelButton;
+		JTextField nameTF, priceTF, quantityTF;
+		JLabel nameLabel, priceLabel, quantityLabel;
 
-
-        public AddProductWindow(){
+        public AddProductWindow(StructureManagerWindow manager, Category cat){
+        		super();
+        		//This window is used to add a product in the category cat
+                this.manager = manager;
+                this.cat = cat;
+        		
+                setTitle("Ajout d'un nouveau Produit");
+                setSize(500, 130);
+                setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                setVisible(true);
+                setAlwaysOnTop(true);
                 
-                JFrame addProductWindow = new JFrame();
-                addProductWindow.setTitle("Ajout d'un nouveau Produit");
-                addProductWindow.setSize(500, 500);
-                addProductWindow.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
-                addProductWindow.setLocationRelativeTo(null);
-                addProductWindow.setResizable(false);
-                addProductWindow.setVisible(true);
+                JPanel panel = new JPanel();
+                panel.setVisible(true);
                 
-                /*
-                 * a completer avec
-                 *                 - Zones de textes
-                 *                                 Zone de texte pour le nom du nouveau produit
-                 *                                 Noeud Parent a renseigner
-                 *                 - Boutton Valider
-                 */
+                nameLabel = new JLabel("Nom:");
+                nameLabel.setVisible(true);
+                panel.add(nameLabel);
+                
+                nameTF = new JTextField();
+                nameTF.setPreferredSize(new Dimension(150,30));
+                nameTF.setVisible(true);
+                panel.add(nameTF);
+                
+                priceLabel = new JLabel("Prix:");
+                priceLabel.setVisible(true);
+                panel.add(priceLabel);
+                
+                priceTF = new JTextField();
+                priceTF.setPreferredSize(new Dimension(150,30));
+                priceTF.setVisible(true);
+                panel.add(priceTF);
+                
+                quantityLabel = new JLabel("Quantité");
+                quantityLabel.setVisible(true);
+                panel.add(quantityLabel);
+                
+                quantityTF = new JTextField();
+                quantityTF.setPreferredSize(new Dimension(150,30));
+                quantityTF.setVisible(true);
+                panel.add(quantityTF);
+                
+                
+                
+                okButton = new JButton("Ajouter le produit");
+                okButton.setVisible(true);
+                okButton.addActionListener(this);
+                panel.add(okButton);
+                
+                cancelButton = new JButton("Annuler");
+                cancelButton.setVisible(true);
+                cancelButton.addActionListener(this);
+                panel.add(cancelButton);
+                
+                getContentPane().add(panel);
         }
-        
-        
-        /**
-         * @param args
-         */
-        public static void main(String[] args) {
-                // TODO Auto-generated method stub
-                AddProductWindow product = new AddProductWindow();
-                
-                
-        }
 
-
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getSource() == okButton){
+				String name = nameTF.getText();
+				if(name.length()==0){
+					JOptionPane.showMessageDialog(this, "Erreur: le nom du produit ne peut pas être vide.", "Erreur entrée utilisateur",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					Double price, quantity;
+					try{
+						price = Double.parseDouble(priceTF.getText());
+						quantity = Double.parseDouble(quantityTF.getText());
+						manager.addProduct(cat, new Product(name, price, quantity));
+						manager.updateTree();
+						dispose();
+					}
+					catch(NumberFormatException exception){
+						JOptionPane.showMessageDialog(this, "Erreur: le prix et la quantité doivent être de type numérique.", "Erreur entrée utilisateur",
+													JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+			else if(e.getSource() == cancelButton){
+				dispose();
+			}
+		}
 }
 

@@ -21,32 +21,11 @@ public final class Application extends JFrame implements ActionListener {
 		
 		this.setBounds(50,50,800,600);
 		
-		//On ajoute quelques produits
-		Product banane = new Product("Banane", 0.25, 500.0);
-		Product cerise = new Product("Cerise", 0.02, 500.0);
-		Product clementine = new Product("Clémentine", 0.35, 500.0);
-		
-		//Nouvelle catégorie
-		Category yahourts = new Category("yahourts");
-		Product petitEncas = new Product("Petit Encas");
-		yahourts.addChild(petitEncas);
-		
-		//Nouvelle catégorie
-		Category fruits = new Category("Fruits");
-		fruits.addChild(banane);
-		fruits.addChild(cerise);
-		fruits.addChild(clementine);
-		
 		//Magasin
 		magasin = new Category("Magasin");
-		magasin.addChild(fruits);
-		magasin.addChild(yahourts);
 		
 		//Simulation
 		sim = new Simulation();
-		sim.addProduct(banane);
-		sim.addProduct(cerise);
-		sim.addProduct(clementine);
 		/*
 		Thread t = new Thread(sim);
 		t.start();
@@ -75,7 +54,6 @@ public final class Application extends JFrame implements ActionListener {
 					formerScreen = "Home Screen";
 				}
 				else if(requiredScreen.equals("Structure Manager")){
-					structureManagerScreen.activate();
 					this.getContentPane().add(structureManagerScreen);
 					structureManagerScreen.setVisible(true);
 					this.setVisible(true);
@@ -109,6 +87,9 @@ public final class Application extends JFrame implements ActionListener {
 			this.requiredScreen = "Home Screen";
 		}*/
 		else if(b==statsScreen.getGetBackButton()){
+			this.requiredScreen = "Home Screen";
+		}
+		else if(b==structureManagerScreen.getGetBackButton()){
 			this.requiredScreen = "Home Screen";
 		}
 	}

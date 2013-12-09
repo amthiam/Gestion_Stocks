@@ -15,6 +15,12 @@ public class Category {
 		children.add(c); 
 	}
 	
+	public void removeChild(Category cat){
+		if(children.contains(cat)){
+			children.remove(cat);
+		}
+	}
+	
 	public List<Category> getChildren(){
 		return this.children;
 	}
@@ -31,15 +37,4 @@ public class Category {
 		return this.name;
 	}
 	
-	public void afficherPrix(Category c){
-		if(c.getChildren().size()==0){
-			Product p = (Product)c;
-			System.out.println(p.getPrice());
-		}
-		else{
-			for(Category cat:c.getChildren()){
-				afficherPrix(cat);
-			}
-		}
-	}
 }
