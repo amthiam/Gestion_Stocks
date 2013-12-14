@@ -25,10 +25,10 @@ public class HistoryGraph extends Canvas {
 	}
 
 	/**
-	 * @param startDate the startDate to set
+	 * @param nbDays the number of days that should be shown on the graph. 
 	 */
-	public void setNbDays(int startDate) {
-		this.nbDays = startDate;
+	public void setNbDays(int nbDays) {
+		this.nbDays = nbDays;
 	}
 
 	/**
@@ -39,18 +39,25 @@ public class HistoryGraph extends Canvas {
 	}
 
 	/**
-	 * @param endDate the endDate to set
+	 * @param endDate la date de fin.
 	 */
 	public void setEndDate(int endDate) {
 		this.endDate = endDate;
 	}
-
+	
+	/**
+	 * Constructeur. 
+	 */
 	public HistoryGraph(){
 		categoriesToShow = new ArrayList<Category>();
 		nbDays=20;
 		endDate = 0;
 	}
 
+	/**
+	 * Ajoute une catégorie dont la courbe sera affichée par le graphe.
+	 * @param cat la catégorie à ajouter
+	 */
 	public void addCategoryToShow(Category cat) {
 		if(categoriesToShow.size() < drawingColors.length){
 			categoriesToShow.add(cat);
@@ -62,14 +69,23 @@ public class HistoryGraph extends Canvas {
 		}
 	}
 	
+	/**
+	 * @return la dimension minimale
+	 */
 	public Dimension getMinimumSize(){
-		return new Dimension(300, 400);
+		return new Dimension(500, 400);
 	}
 	
+	/**
+	 * @return la dimension maximale
+	 */
 	public Dimension getMaximumSize(){
 		return getMinimumSize();
 	}
 	
+	/**
+	 * @return la dimension préférée
+	 */
 	public Dimension getPreferredSize(){
 		return getMinimumSize();
 	}
@@ -107,21 +123,41 @@ public class HistoryGraph extends Canvas {
 		return categoryQuantities;
 	}
 	
+	/**
+	 * Cette méthode est utilisée pour implémenter un double-buffering, qui évite le clignotement de l'affichage lors de sa mise à jour.
+	 * @param g le graphique sur lequel dessiné.
+	 */
+	public void update(Graphics g){	//Fonction utile pour le double-buffering, qui évite des problèmes de clignotement
+		Image memoryImage = createImage(getSize().width, getSize().height);
+		Graphics gMemoryImage = memoryImage.getGraphics();
+		paint(gMemoryImage);
+		g.drawImage(memoryImage, 0, 0, this);
+	}
+	
+	/**
+	 * Redéfinition de la méthode paint. Gère le dessin des courbes.
+	 * @param g graphique sur lequel dessiné
+	 */
 	public void paint(Graphics g){
 		drawBackground(g);
 		//On récupère la taille du canvas pour pouvoir dessiner dans les bonnes proportions
 		Dimension size = this.getSize();
 		for(Category cat:categoriesToShow){
+			//Couleur du dessin
 			g.setColor(drawingColors[categoriesToShow.indexOf(cat)]);
+			//Données de la catégorie
 			TreeMap<Integer,Double> dataToDraw = computeCategoryQuantities(cat);
+			//Dessin
+			boolean b = false;	//Ce booléen est utilisé pour ne pas dessiner les points de quantité nulle pour les cas où le produit n'existait pas.
 			int xLast=-1;
 			int yLast=0;
 			int x,y;
 			for(int d:dataToDraw.keySet()){
 				x = (int)((double)(d-endDate+nbDays)/(double)nbDays*size.getWidth());
-				y = (int)((double)(dataToDraw.get(d))/1500.0*size.getHeight());	//TODO 1500 doit être changé ici!
+				y = (int)((double)(dataToDraw.get(d))/1500.0*size.getHeight());
 				y = (int)size.getHeight() - y;
-				if(xLast != -1){
+				if(xLast != -1 && (yLast != 0 || b)){
+					b = true;
 					g.drawLine(xLast, yLast, x, y);
 					//g.drawLine(xLast, yLast-1, x, y-1);
 				}
@@ -132,8 +168,9 @@ public class HistoryGraph extends Canvas {
 	}
 	
 	
-	/*
-	 * Cette fonction dessine la grille, les axes, les échelles, la légende.
+	/**
+	 * Fonction qui dessine la grille, les échelles et la légende
+	 * @param g
 	 */
 	private void drawBackground(Graphics g){
 		g.setColor(Color.gray);		//TODO à rendre paramétrisable
@@ -144,12 +181,43 @@ public class HistoryGraph extends Canvas {
 		int nbVertical = 10;	//TODO à rendre paramétrisable
 		int intervalHeight = (int)(h/nbVertical);
 		for(int i=0;i<nbVertical;i++){
+			//dessin de la ligne
 			g.drawLine(0, i*intervalHeight, w, i*intervalHeight);
+			//dessin de l'échelle
+			g.drawString((int)((double)(nbVertical-i)/(double)nbVertical*1500.0)+"", 0, i*intervalHeight);	//TODO 1500 à changer ici!
 		}
+		//Dessin de l'abscisse et de l'échelle
+		int nbHorizontal = 10;
+		int intervalWidth = (int)(w/nbHorizontal);
+		int j;
+		for(int i=0;i<nbHorizontal;i++){
+			//dessin du trait
+			g.drawLine(i*intervalWidth, h, i*intervalWidth, h-10);
+			//écriture de l'échelle
+			j=(int)((double)i/(double)nbHorizontal*20.0)+endDate-nbDays+1;
+			if(j>=0){
+				g.drawString(j+"", i*intervalWidth, h-10);	//TODO 20 à changer
+			}
+		}
+		
+		//Dessin de la légende
+		g.setColor(Color.white);
+		g.fillRoundRect(50, 5, 150, 15*categoriesToShow.size(), 5, 5);
+		for(Category cat:categoriesToShow){
+			//Couleur du dessin
+			g.setColor(drawingColors[categoriesToShow.indexOf(cat)]);
+			g.drawLine(50, 10+categoriesToShow.indexOf(cat)*15, 65, 10+categoriesToShow.indexOf(cat)*15);
+			g.setColor(Color.black);
+			g.drawString(cat.getName(), 75, 15+categoriesToShow.indexOf(cat)*15);
+		}
+		
 	}
-
+	
+	/**
+	 * Retire la catégorie de la liste de celles dont les courbes doivent être affichées.
+	 * @param c la catégorie à retirer de la liste.
+	 */
 	public void removeCategory(Category c) {
 		categoriesToShow.remove(c);
 	}
-	
 }

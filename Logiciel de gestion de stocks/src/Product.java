@@ -72,10 +72,6 @@ public class Product extends Category{
 			return quantityLevels.get(d);
 		}
 		catch(Exception e){
-			System.out.println("Erreur:" + e.getMessage());
-			if(!quantityLevels.containsKey(d)){
-				System.out.println("La date " + d + " n'est pas dans l'historique...");
-			}
 			return 0;
 		}
 	}

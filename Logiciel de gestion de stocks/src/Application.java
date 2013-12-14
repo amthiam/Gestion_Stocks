@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.Date;
 
 
@@ -64,7 +66,7 @@ public final class Application extends JFrame implements ActionListener {
 					statsScreen.setVisible(true);
 					this.setVisible(true);
 					statsScreen.activate();
-					formerScreen = "Stats Screen";fgf
+					formerScreen = "Stats Screen";
 				}
 			}
 		}
@@ -82,15 +84,19 @@ public final class Application extends JFrame implements ActionListener {
 		}
 		else if(b==homeScreen.getGoToStatsButton()){
 			this.requiredScreen = "Stats Screen";
-		}/*
-		else if(b==structureManagerScreen.getGetBackButton()){
-			this.requiredScreen = "Home Screen";
-		}*/
+		}
 		else if(b==statsScreen.getGetBackButton()){
 			this.requiredScreen = "Home Screen";
 		}
 		else if(b==structureManagerScreen.getGetBackButton()){
-			this.requiredScreen = "Home Screen";
+			if(!magasin.checkCategoryStructure()){
+			JOptionPane.showMessageDialog(this, "Erreur: la structure de l'arbre des catégories et produits n'est pas correcte."
+					+ "Les feuilles doivent exactement correspondre aux produits, et toute catégorie doit au moins contenir un produit.", "Erreur entrée utilisateur",
+                    JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				this.requiredScreen = "Home Screen";
+			}
 		}
 	}
 

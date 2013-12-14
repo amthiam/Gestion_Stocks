@@ -3,11 +3,13 @@ import java.awt.*;
 import javax.swing.*;
 
 public class HomeScreen extends Panel {
+	Application app;
 	boolean active;
 	JButton buttonStructureManager;
 	JButton buttonStats;
 	
 	public HomeScreen(Application app){
+		this.app = app;
 		active = false;
 		//Création des trois bouttons de l'écran d'accueil
 		buttonStructureManager = new JButton("Gestionnaire de catégories et produits");
@@ -31,6 +33,12 @@ public class HomeScreen extends Panel {
 	
 	public void activate(){
 		active = true;
+		if(app.getMagasin().checkCategoryStructure()){
+			buttonStats.setEnabled(true);
+		}
+		else{
+			buttonStats.setEnabled(false);
+		}
 	}
 	
 	public void inactivate(){
