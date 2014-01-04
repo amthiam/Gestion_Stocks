@@ -20,6 +20,7 @@ public class HomeScreen extends Panel implements ActionListener{
 	JButton buttonStats;
 	JButton loadB, saveB;
 	
+	
 	public HomeScreen(Application app){
 		this.app = app;
 		active = false;

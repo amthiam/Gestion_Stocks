@@ -9,6 +9,7 @@ public final class Application extends JFrame implements ActionListener {
         protected HomeScreen homeScreen;
         protected StructureManagerWindow structureManagerScreen;
         protected Stats statsScreen;
+        protected Statistiques statistiquesScreen;
         protected String requiredScreen;
         protected String formerScreen;
         protected Simulation sim;
@@ -39,7 +40,7 @@ public final class Application extends JFrame implements ActionListener {
                 structureManagerScreen = new StructureManagerWindow(this, magasin);
                 
                 //Ecran des stats
-                statsScreen = new Stats(this);
+                statistiquesScreen = new Statistiques(this);
                 
                 formerScreen = "";
                 requiredScreen= "Home Screen";
@@ -65,10 +66,10 @@ public final class Application extends JFrame implements ActionListener {
                                         formerScreen = "Structure Manager";
                                 }
                                 else if(requiredScreen.equals("Stats Screen")){
-                                        this.getContentPane().add(statsScreen);
-                                        statsScreen.setVisible(true);
+                                        this.getContentPane().add(statistiquesScreen);
+                                        statistiquesScreen.setVisible(true);
                                         this.setVisible(true);
-                                        statsScreen.activate();
+                                       // statistiquesScreen.activate();
                                         formerScreen = "Stats Screen";
                                 }
                         }
