@@ -1,4 +1,3 @@
-package Application;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -18,7 +17,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	Simulation simulation;
 	HistoryGraph graphe;
 	Arbre categoriesTree;
-	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB;
+	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB,vente;
 	ButtonGroup radioGroup;
 	JRadioButton quantitiesButton, benefitButton;
 	JSlider simulationSpeedSlider;
@@ -31,6 +30,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	JPanel jpanelArbre= new JPanel();  
 	JLabel jlabVitesse=new JLabel();
 	JPanel jpanelRetour= new JPanel();
+        JPanel jpanelVente= new JPanel();
 	
 	
 	/**
@@ -45,7 +45,9 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		jpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"test"));
 		jpanelVitesse.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"Cont�ler la simulation"));
 		jpanelVitesse.setBounds(400, 505, 600,75);
-		jpanelRetour.setBounds(50,525,250,150);
+		jpanelRetour.setBounds(50,625,250,150);
+                jpanelVente.setBounds(-30, 500, 350, 150);
+                
 		jpanel.setBounds(20,375,250,125);
 		jpanelArbre.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"L'arbre du produits "));
 		jpanelArbre.setBounds(20,65,250, 300);
@@ -53,6 +55,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		this.add(jpanelVitesse);
 		this.add(jpanel);
 		this.add(jpanelRetour);
+                this.add(jpanelVente);
 		simulation = app.getSim();
 		//Ajout du boutton de retour
 		getBackButton = new JButton("Retour");
@@ -81,9 +84,21 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		addCategoryInGraphB.setEnabled(false);
 		jpanel.add(addCategoryInGraphB);
 		//Ajout du boutton permettant la suprresion d'une cat�gorie du graphe
-		removeCategoryFromGraphB = new JButton("Retirer la cat�gorie");
+		
+                removeCategoryFromGraphB = new JButton("Retirer la cat�gorie");
 		removeCategoryFromGraphB.addActionListener(this);
 		jpanel.add(removeCategoryFromGraphB);
+                
+                 //Ajout du bouton permettant la réalisation d'une vente
+                vente = new JButton("Realiser vente");
+		vente.addActionListener(this);
+                vente.setEnabled(false);
+                vente.addActionListener(this);
+		
+		//vente.add(addCategoryInGraphB);
+                jpanelVente.add(vente);
+               
+                
 		//Ajout des boutons radios permettant de choisir entre le mode quantit� et chiffre d'affaire
 		JPanel radioPanel = new JPanel();
 		radioGroup = new ButtonGroup();
@@ -195,6 +210,10 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 			Category selectedCategory = (Category)(((DefaultMutableTreeNode) categoriesTree.arbre.getLastSelectedPathComponent()).getUserObject());
 			graphe.removeCategory(selectedCategory);
 		}
+                else if(e.getSource() == vente){
+                   	Product selectedProduit = (Product)(((DefaultMutableTreeNode) categoriesTree.arbre.getLastSelectedPathComponent()).getUserObject());
+                       new Vendre(selectedProduit);   
+                }
 	}
 
 	@Override
@@ -219,10 +238,12 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		if(categoriesTree.arbre.getLastSelectedPathComponent()!=null){
 			addCategoryInGraphB.setEnabled(true);
 			removeCategoryFromGraphB.setEnabled(true);
+                        vente.setEnabled(true);
 		}
 		else{
 			addCategoryInGraphB.setEnabled(false);
 			removeCategoryFromGraphB.setEnabled(false);
+                        vente.setEnabled(false);
 		}
 	}
 
