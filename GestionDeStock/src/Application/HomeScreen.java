@@ -19,31 +19,61 @@ public class HomeScreen extends Panel implements ActionListener{
 	JButton buttonStructureManager;
 	JButton buttonStats;
 	JButton loadB, saveB;
-	
-	
+	JLabel titre=new  JLabel("Logiciel de gestion \n de stock",JLabel.CENTER);
+	Font font = new Font("Gabriola",Font.BOLD,60);
+	JPanel panel=new JPanel();
+	JLabel image = new JLabel( new ImageIcon( "C://Users//Imen//Desktop//image.png"));
+	//JLabel icon=new JLabel(new ImageIcon( "C://Users//Imen//Desktop//imageStock.jpg"));
+	ImageIcon icon1 = new ImageIcon(new ImageIcon("C://Users//Imen//Desktop//imageStock.jpg").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+	JLabel icon= new JLabel(icon1);
 	public HomeScreen(Application app){
 		this.app = app;
 		active = false;
+		this.setLayout(null);
+		this.setBackground(Color.white);
+		
+		titre.setBounds(150, 30, 800, 70);
+		titre.setFont(font);
+		this.add(titre);
+		
+		
 		//Creation des trois bouttons de lecran d'accueil
-		buttonStructureManager = new JButton("Gestionnaire de categories et produits");
+		JLabel lab=new JLabel("Gérer les categories et les produits");
+		buttonStructureManager = new JButton();
 		buttonStructureManager.setVisible(true);
 		buttonStructureManager.addActionListener(app);
-		this.add(buttonStructureManager);
+		buttonStructureManager.add(lab);
+		buttonStructureManager.add(icon);
+		//this.add(buttonStructureManager);
 		
 		buttonStats = new JButton("Statistiques");
 		buttonStats.setVisible(true);
 		buttonStats.addActionListener(app);
-		this.add(buttonStats);
+		//this.add(buttonStats);
 		
 		loadB = new JButton("Charger les donnees");
 		loadB.setVisible(true);
 		loadB.addActionListener(this);
-		this.add(loadB);
+		//this.add(loadB);
 		
 		saveB = new JButton("Sauvegarder les donnees");
 		saveB.setVisible(true);
 		saveB.addActionListener(this);
-		this.add(saveB);
+		//this.add(saveB);
+		
+		
+		panel.setBackground(Color.white);
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),"choisir l'action à effectuer"));
+		panel.add(buttonStructureManager);
+		panel.add(buttonStats);
+		panel.add(loadB);
+		panel.add(saveB);
+		panel.setBounds(150,500, 800, 100);
+		
+		image.setBounds(150, 125, 800, 400);
+		this.add(image);
+		this.add(panel);
+		
 	}
 	
 	public JButton getGoToStructureManagerButton(){

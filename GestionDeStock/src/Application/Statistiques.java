@@ -23,7 +23,7 @@ public class Statistiques extends Panel implements ActionListener{
 	private JLabel titre=new  JLabel("Statistiques",JLabel.CENTER);
 	JLabel labelInfo = new JLabel("veuillez choisir le critère de tri");
 	JLabel labelOrdre = new JLabel("veuillez choisir l'ordre");
-	Font font = new Font("Arial",Font.BOLD,20);
+	Font font = new Font("Gabriola",Font.BOLD,50);
 	JButton simulationButton=new JButton();
 	JButton RetourButton=new JButton("Retour");
 	 String[] entetes = {"Id_Article", "Libellé", "Catégorie", "Prix unitaire", "nombre d'articles en stock","nombre d'articles vendus","chiffre d'affaires"};
