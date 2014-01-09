@@ -22,10 +22,10 @@ public class HomeScreen extends Panel implements ActionListener{
 	JLabel titre=new  JLabel("Logiciel de gestion \n de stock",JLabel.CENTER);
 	Font font = new Font("Gabriola",Font.BOLD,60);
 	JPanel panel=new JPanel();
-	JLabel image = new JLabel( new ImageIcon( "C://Users//Imen//Desktop//image.png"));
-	//JLabel icon=new JLabel(new ImageIcon( "C://Users//Imen//Desktop//imageStock.jpg"));
-	ImageIcon icon1 = new ImageIcon(new ImageIcon("C://Users//Imen//Desktop//imageStock.jpg").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-	JLabel icon= new JLabel(icon1);
+	ImageIcon image1 = new ImageIcon( new ImageIcon( "image.png").getImage().getScaledInstance(600, 200, Image.SCALE_DEFAULT));
+	JLabel image=new JLabel(image1);
+	//ImageIcon icon1 = new ImageIcon(new ImageIcon("C://Users//Imen//Desktop//imageStock.jpg").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+	//JLabel icon= new JLabel(icon1);
 	public HomeScreen(Application app){
 		this.app = app;
 		active = false;
@@ -43,7 +43,7 @@ public class HomeScreen extends Panel implements ActionListener{
 		buttonStructureManager.setVisible(true);
 		buttonStructureManager.addActionListener(app);
 		buttonStructureManager.add(lab);
-		buttonStructureManager.add(icon);
+		//buttonStructureManager.add(icon);
 		//this.add(buttonStructureManager);
 		
 		buttonStats = new JButton("Statistiques");
@@ -68,7 +68,7 @@ public class HomeScreen extends Panel implements ActionListener{
 		panel.add(buttonStats);
 		panel.add(loadB);
 		panel.add(saveB);
-		panel.setBounds(150,500, 800, 100);
+		panel.setBounds(150,500, 800, 75);
 		
 		image.setBounds(150, 125, 800, 400);
 		this.add(image);

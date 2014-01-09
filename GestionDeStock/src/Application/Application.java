@@ -40,7 +40,10 @@ public final class Application extends JFrame implements ActionListener {
                 structureManagerScreen = new StructureManagerWindow(this, magasin);
                 
                 //Ecran des stats
-                statistiquesScreen = new Statistiques(this);
+                statistiquesScreen = new Statistiques(this,magasin);
+                
+                //
+                statsScreen = new Stats(this);
                 
                 formerScreen = "";
                 requiredScreen= "Home Screen";
@@ -48,7 +51,7 @@ public final class Application extends JFrame implements ActionListener {
                 this.setVisible(true);
                 
                 while(true){
-                	System.out.println("entre dans la boucle while");
+                	System.out.println("a");
                         if(!formerScreen.equals(requiredScreen)){
                                 this.getContentPane().removeAll();
                                 if(requiredScreen.equals("Home Screen")){
@@ -65,12 +68,18 @@ public final class Application extends JFrame implements ActionListener {
                                         this.setVisible(true);
                                         formerScreen = "Structure Manager";
                                 }
-                                else if(requiredScreen.equals("Stats Screen")){
+                                else if(requiredScreen.equals("Statistiques Screen")){
                                         this.getContentPane().add(statistiquesScreen);
                                         statistiquesScreen.setVisible(true);
                                         this.setVisible(true);
                                        // statistiquesScreen.activate();
-                                        formerScreen = "Stats Screen";
+                                        formerScreen = "Statistiques Screen";
+                                }
+                                else if(requiredScreen.equals("Stats Screen")){
+                                	 this.getContentPane().add(statsScreen);
+                                	 statsScreen.setVisible(true);
+                                	 this.setVisible(true);
+                                	 formerScreen= "Stats Screen";
                                 }
                         }
                 }
@@ -82,15 +91,16 @@ public final class Application extends JFrame implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+        	System.out.println("retour");
                 JButton b = (JButton)e.getSource();
                 if(b==homeScreen.getGoToStructureManagerButton()){
                         this.requiredScreen = "Structure Manager";
                 }
                 else if(b==homeScreen.getGoToStatsButton()){
-                        this.requiredScreen = "Stats Screen";
+                        this.requiredScreen = "Statistiques Screen";
                 }
                 else if(b==statsScreen.getGetBackButton()){
-                        this.requiredScreen = "Home Screen";
+                        this.requiredScreen = "Statistiques Screen";
                 }
                 else if(b==structureManagerScreen.getGetBackButton()){
                         if(!magasin.checkCategoryStructure()){
@@ -101,6 +111,12 @@ public final class Application extends JFrame implements ActionListener {
                         else{
                                 this.requiredScreen = "Home Screen";
                         }
+                }
+                else if(b==statistiquesScreen.getRetourButton()){
+                	this.requiredScreen = "Home Screen";
+                }
+                else if(b==statistiquesScreen.getSimulationButton()){
+                	this.requiredScreen = "Stats Screen";
                 }
         }
 

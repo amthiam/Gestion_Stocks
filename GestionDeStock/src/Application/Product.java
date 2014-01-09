@@ -144,6 +144,7 @@ public class Product extends Category{
 		currentQuantity = q;
 	}
 	
+	
 	/**
 	 * Renvoie la quantit� du produit � la date d selon l'historique du produit
 	 * @param d date

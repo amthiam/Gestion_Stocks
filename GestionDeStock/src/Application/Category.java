@@ -37,6 +37,11 @@ public class Category {
                         children.remove(cat);
                 }
         }
+        
+        
+        public String[] getLineInformation(){
+        	return null;
+        }
                 
         public List<Product> getProducts(){
             LinkedList<Product> res = new LinkedList<Product>();

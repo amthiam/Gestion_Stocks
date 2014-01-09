@@ -31,8 +31,9 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	JPanel jpanelArbre= new JPanel();  
 	JLabel jlabVitesse=new JLabel();
 	JPanel jpanelRetour= new JPanel();
-        JPanel jpanelVente= new JPanel();
-	
+       // JPanel jpanelVente= new JPanel();
+        JLabel titre=new  JLabel("Simulation de Ventes",JLabel.CENTER);
+        Font font = new Font("Gabriola",Font.BOLD,50);
 	
 	/**
 	 * Constructeur. Construit les boutons, l'arbre de type Arbre, le graphe de type HistoryGraph, et plus g�n�ralement l'interface graphique.
@@ -41,22 +42,27 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	 */
 	public Stats(Application app){
 		this.setLayout(null);
+		this.setBackground(Color.white);
 		active = false;
 		this.app = app;
 		jpanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"test"));
 		jpanelVitesse.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"Cont�ler la simulation"));
-		jpanelVitesse.setBounds(400, 505, 600,75);
-		jpanelRetour.setBounds(50,625,250,150);
-                jpanelVente.setBounds(-30, 500, 350, 150);
+		jpanelVitesse.setBounds(400, 525, 600,75);
+		jpanel.setBackground(Color.white);
+		jpanelArbre.setBackground(Color.white);
+		jpanelVitesse.setBackground(Color.white);
+		jpanelRetour.setBackground(Color.white);
+		jpanelRetour.setBounds(20,550,250,50);
+               // jpanelVente.setBounds(-30, 500, 350, 150);
                 
-		jpanel.setBounds(20,375,250,125);
+		jpanel.setBounds(20,400,250,125);
 		jpanelArbre.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"L'arbre du produits "));
-		jpanelArbre.setBounds(20,65,250, 300);
+		jpanelArbre.setBounds(20,100,250, 300);
 		this.add(jpanelArbre);
 		this.add(jpanelVitesse);
 		this.add(jpanel);
 		this.add(jpanelRetour);
-                this.add(jpanelVente);
+               // this.add(jpanelVente);
 		simulation = app.getSim();
 		//Ajout du boutton de retour
 		getBackButton = new JButton("Retour");
@@ -97,8 +103,11 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
                 vente.addActionListener(this);
 		
 		//vente.add(addCategoryInGraphB);
-                jpanelVente.add(vente);
-               
+                jpanelRetour.add(vente);
+        //ajout de titre 
+                titre.setFont(font);
+                this.add(titre);
+                titre.setBounds(100	, 10, 800, 100);
                 
 		//Ajout des boutons radios permettant de choisir entre le mode quantit� et chiffre d'affaire
 		JPanel radioPanel = new JPanel();
@@ -124,7 +133,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		//Ancienne version 		this.add(graphe);
 		graphe.setVisible(true);
 		graphScroll = new JScrollPane(graphe);
-		graphScroll.setBounds(300, 75,700, 420);
+		graphScroll.setBounds(300, 100,700, 420);
 		graphScroll.setVisible(true);
 		this.add(graphScroll);
 		
