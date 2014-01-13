@@ -31,7 +31,7 @@ public class StructureManagerWindow extends Panel implements ActionListener, Mou
 	ProductInfoModel productInfoModel;
 	Arbre arbre;
 	int a=0;
-	DefaultMutableTreeNode nodeToMove;	//utilisé pour le déplacement d'une catï¿½gorie
+	DefaultMutableTreeNode nodeToMove;	//utilisï¿½ pour le dï¿½placement d'une catï¿½gorie
 
 	public StructureManagerWindow(Application app, Category magasin)  {
 		active = false;
@@ -127,6 +127,7 @@ public class StructureManagerWindow extends Panel implements ActionListener, Mou
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		DefaultMutableTreeNode selectedNode = arbre.getLastSelectedNode();
+		
 		if (selectedNode != null){
 			if((JButton) e.getSource() == addProduct){
 				a=0;
@@ -191,6 +192,7 @@ public class StructureManagerWindow extends Panel implements ActionListener, Mou
 			//Si l'utilisateur a cliquï¿½ sur l'arbre on regarde si le noeud sï¿½lectionnï¿½ est une catï¿½gorie ou un produit
 			//et on active/dï¿½sactive certains boutons en consï¿½quence
 			DefaultMutableTreeNode selectedNode = arbre.getLastSelectedNode();
+			renameCategorie.setEnabled(true);
 			if(selectedNode != null){
 				Category selectedObject = (Category) selectedNode.getUserObject();
 				if(a==1){
