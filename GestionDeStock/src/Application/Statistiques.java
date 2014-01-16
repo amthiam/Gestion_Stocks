@@ -35,47 +35,42 @@ public class Statistiques extends Panel implements ActionListener {
 	Application app;
 	private ModeleDynamiqueObjet modele = new ModeleDynamiqueObjet();
 	private JLabel titre=new  JLabel("Statistiques",JLabel.CENTER);
-	JLabel labelInfo = new JLabel("Pour trier le tableau sélectionner la colonne corresponadante");
+	JLabel labelInfo = new JLabel("Pour trier le tableau sï¿½lectionner la colonne corresponadante");
 	JLabel labelOrdre = new JLabel("veuillez choisir l'ordre");
 	Font font = new Font("Gabriola",Font.BOLD,50);
-	JButton simulationButton=new JButton();
 	JButton RetourButton=new JButton("Retour");
 	 
 	JTable tableau ;  
 	 JRadioButton yesButton   = new JRadioButton("croissant"  , true);
-	 JRadioButton noButton    = new JRadioButton("décroissant"   , false);
+	 JRadioButton noButton    = new JRadioButton("dï¿½croissant"   , false);
 
 	 ButtonGroup bgroup = new ButtonGroup();
-	 Stats stats;
+	 
 	JScrollPane span=new JScrollPane();
 	int nombreligne=10;
-	JLabel nbligne=new JLabel("Nombre de lignes à afficher");
+	JLabel nbligne=new JLabel("Nombre de lignes ï¿½ afficher");
 	JComboBox comboligne=new JComboBox();
 	Category magasin;
 	DefaultTableCellRenderer ColorTable = new DefaultTableCellRenderer();
 	JPanel labprix=new JPanel();
-	JLabel labelprix=new  JLabel("les plus chèr");
+	JLabel labelprix=new  JLabel("les plus chï¿½r");
 	
 	
 	public Statistiques(Application app, Category magasin){
 		this.magasin=magasin;
 		this.app=app;
 		tableau = new JTable(modele);
-		stats=new Stats(app);
+		
 		  TableData(magasin);
 		  tableau.setAutoCreateRowSorter(true);
 		  
 	
-		simulationButton.addActionListener(this);
-		simulationButton.addActionListener(app);
 		this.setLayout(null);
 		titre.setFont(font);
 		
 		titre.setBounds(400, 00, 300, 100);
 		
 		
-		simulationButton.setText("mode simulation");
-		simulationButton.setBounds(400, 550, 150, 20);
 		RetourButton.setBounds(200, 550, 150, 20);
 		RetourButton.addActionListener(app);
 		
@@ -99,10 +94,10 @@ public class Statistiques extends Panel implements ActionListener {
 		
 		this.setBackground(Color.white);
 		tableau.setDefaultRenderer(Object.class, new MonCellRenderer());
-		//ajouter les différents élements à l'interface
+		//ajouter les diffï¿½rents ï¿½lements ï¿½ l'interface
 	
 		this.add(span);
-		this.add(simulationButton);
+		
 		this.add(titre);
 		this.add(RetourButton);
 		this.add(labelInfo);
@@ -145,9 +140,7 @@ public class Statistiques extends Panel implements ActionListener {
 	}
 
 
-	public JButton getSimulationButton() {
-		return simulationButton;
-	}
+	
 
 
 // colorer une colonne 
@@ -161,6 +154,7 @@ public void actionPerformed(ActionEvent arg0) {
 	// TODO Auto-generated method stub
 	
 }
+
 
 
 	

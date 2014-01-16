@@ -19,6 +19,7 @@ public class HomeScreen extends Panel implements ActionListener{
 	JButton buttonStructureManager;
 	JButton buttonStats;
 	JButton loadB, saveB;
+        JButton Stats;
 	JLabel titre=new  JLabel("Logiciel de gestion \n de stock",JLabel.CENTER);
 	Font font = new Font("Gabriola",Font.BOLD,60);
 	JPanel panel=new JPanel();
@@ -38,7 +39,7 @@ public class HomeScreen extends Panel implements ActionListener{
 		
 		
 		//Creation des trois bouttons de lecran d'accueil
-		JLabel lab=new JLabel("Gérer les categories et les produits");
+		JLabel lab=new JLabel("Gï¿½rer les categories et les produits");
 		buttonStructureManager = new JButton();
 		buttonStructureManager.setVisible(true);
 		buttonStructureManager.addActionListener(app);
@@ -50,6 +51,10 @@ public class HomeScreen extends Panel implements ActionListener{
 		buttonStats.setVisible(true);
 		buttonStats.addActionListener(app);
 		//this.add(buttonStats);
+                
+                Stats = new JButton("Simulation");
+		Stats.setVisible(true);
+		Stats.addActionListener(app);
 		
 		loadB = new JButton("Charger les donnees");
 		loadB.setVisible(true);
@@ -63,13 +68,14 @@ public class HomeScreen extends Panel implements ActionListener{
 		
 		
 		panel.setBackground(Color.white);
-		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),"choisir l'action à effectuer"));
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),"choisir l'action ï¿½ effectuer"));
 		panel.add(buttonStructureManager);
 		panel.add(buttonStats);
 		panel.add(loadB);
 		panel.add(saveB);
-		panel.setBounds(150,500, 800, 75);
-		
+                panel.add(Stats);
+		panel.setBounds(150,500, 910, 75);
+	
 		image.setBounds(150, 125, 800, 400);
 		this.add(image);
 		this.add(panel);
@@ -82,6 +88,10 @@ public class HomeScreen extends Panel implements ActionListener{
 
 	public JButton getGoToStatsButton() {
 		return buttonStats;
+	}
+        
+        public JButton getGoToSimButton() {
+		return Stats;
 	}
 	
 	public void activate(){

@@ -1,8 +1,11 @@
 package Application;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
 import java.util.Date;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 
 public final class Application extends JFrame implements ActionListener {
@@ -39,19 +42,20 @@ public final class Application extends JFrame implements ActionListener {
                 //Ecran du gestionnaire de structure
                 structureManagerScreen = new StructureManagerWindow(this, magasin);
                 
-                //Ecran des stats
-                statistiquesScreen = new Statistiques(this,magasin);
-                
-                //
+                //Ecran des simulations
                 statsScreen = new Stats(this);
+                
+                //Ecran des simulations
+                statistiquesScreen= new Statistiques(this,magasin);
+                
+                
                 
                 formerScreen = "";
                 requiredScreen= "Home Screen";
                 //Affichage de l'écran d'accueil
                 this.setVisible(true);
-                
                 while(true){
-                	System.out.println("a");
+                        System.out.println("");
                         if(!formerScreen.equals(requiredScreen)){
                                 this.getContentPane().removeAll();
                                 if(requiredScreen.equals("Home Screen")){
@@ -61,26 +65,28 @@ public final class Application extends JFrame implements ActionListener {
                                         formerScreen = "Home Screen";
                                 }
                                 else if(requiredScreen.equals("Structure Manager")){
-                                	System.out.println("Structure Manager activated");
                                         structureManagerScreen.activate();
                                         this.getContentPane().add(structureManagerScreen);
                                         structureManagerScreen.setVisible(true);
                                         this.setVisible(true);
                                         formerScreen = "Structure Manager";
                                 }
+                                else if(requiredScreen.equals("Stats Screen")){
+                                        this.getContentPane().add(statsScreen);
+                                        statsScreen.setVisible(true);
+                                        this.setVisible(true);
+                                        statsScreen.activate();
+                                        formerScreen = "Stats Screen";
+                                }
                                 else if(requiredScreen.equals("Statistiques Screen")){
                                         this.getContentPane().add(statistiquesScreen);
-                                        statistiquesScreen.setVisible(true);
+                                        statsScreen.setVisible(true);
                                         this.setVisible(true);
                                        // statistiquesScreen.activate();
                                         formerScreen = "Statistiques Screen";
                                 }
-                                else if(requiredScreen.equals("Stats Screen")){
-                                	 this.getContentPane().add(statsScreen);
-                                	 statsScreen.setVisible(true);
-                                	 this.setVisible(true);
-                                	 formerScreen= "Stats Screen";
-                                }
+                                
+                                System.out.println("");
                         }
                 }
         }
@@ -91,7 +97,6 @@ public final class Application extends JFrame implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	System.out.println("retour");
                 JButton b = (JButton)e.getSource();
                 if(b==homeScreen.getGoToStructureManagerButton()){
                         this.requiredScreen = "Structure Manager";
@@ -100,8 +105,17 @@ public final class Application extends JFrame implements ActionListener {
                         this.requiredScreen = "Statistiques Screen";
                 }
                 else if(b==statsScreen.getGetBackButton()){
-                        this.requiredScreen = "Statistiques Screen";
+                        this.requiredScreen = "Home Screen";
                 }
+                else if(b==homeScreen.getGoToSimButton()){
+                        this.requiredScreen = "Stats Screen";
+                }
+                
+                 else if(b==statistiquesScreen.getRetourButton()){
+                	this.requiredScreen = "Home Screen";
+                }
+                
+                
                 else if(b==structureManagerScreen.getGetBackButton()){
                         if(!magasin.checkCategoryStructure()){
                         JOptionPane.showMessageDialog(this, "Erreur: la structure de l'arbre des catégories et produits n'est pas correcte."
@@ -112,12 +126,7 @@ public final class Application extends JFrame implements ActionListener {
                                 this.requiredScreen = "Home Screen";
                         }
                 }
-                else if(b==statistiquesScreen.getRetourButton()){
-                	this.requiredScreen = "Home Screen";
-                }
-                else if(b==statistiquesScreen.getSimulationButton()){
-                	this.requiredScreen = "Stats Screen";
-                }
+                
         }
 
         public int getSimulationDate() {
