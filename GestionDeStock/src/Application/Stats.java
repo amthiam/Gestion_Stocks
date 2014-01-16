@@ -18,7 +18,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	Simulation simulation;
 	HistoryGraph graphe;
 	Arbre categoriesTree;
-	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB,vente;
+	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB,vente,plusB,moinsB;
 	ButtonGroup radioGroup;
 	JRadioButton quantitiesButton, benefitButton;
 	JSlider simulationSpeedSlider;
@@ -31,6 +31,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	JPanel jpanelArbre= new JPanel();  
 	JLabel jlabVitesse=new JLabel();
 	JPanel jpanelRetour= new JPanel();
+	JPanel jpanelEchelle = new JPanel();
        // JPanel jpanelVente= new JPanel();
         JLabel titre=new  JLabel("Simulation de Ventes",JLabel.CENTER);
         Font font = new Font("Gabriola",Font.BOLD,50);
@@ -58,10 +59,14 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		jpanel.setBounds(20,400,250,125);
 		jpanelArbre.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"L'arbre du produits "));
 		jpanelArbre.setBounds(20,100,250, 300);
+		jpanelEchelle.setBackground(Color.white);
+		jpanelEchelle.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"Echelle "));
+		jpanelEchelle.setBounds(1025,240,80,100);
 		this.add(jpanelArbre);
 		this.add(jpanelVitesse);
 		this.add(jpanel);
 		this.add(jpanelRetour);
+		this.add(jpanelEchelle);
                // this.add(jpanelVente);
 		simulation = app.getSim();
 		//Ajout du boutton de retour
@@ -123,7 +128,22 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		radioGroup.add(benefitButton);
 		radioPanel.add(quantitiesButton);
 		radioPanel.add(benefitButton);
+		
+		  // Ajout du bouton plusB qui permet de reguler l'echelle
+                plusB= new JButton("+");
+                plusB.addActionListener(this);
+                plusB.setEnabled(true);
+                plusB.setVisible(true);
+                jpanelEchelle.add(plusB);
+                
+                // Ajout du bouton moinsB qui permet de diminuser l'echelle
+                moinsB=new JButton("-");
+                moinsB.addActionListener(this);
+                moinsB.setEnabled(true);
+                moinsB.setVisible(true);
+                jpanelEchelle.add(moinsB);
 		//jpanel.add(radioPanel);
+	
 		
 		//Affichage des statistiques
 		
@@ -223,6 +243,16 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
                 else if(e.getSource() == vente){
                    	Product selectedProduit = (Product)(((DefaultMutableTreeNode) categoriesTree.arbre.getLastSelectedPathComponent()).getUserObject());
                        new Vendre(selectedProduit);   
+                }
+                 else if(e.getSource() == plusB){
+                	graphe.setEchelle(graphe.getEchelle()+100);
+                }
+				
+                else if(e.getSource() == moinsB){
+                	if (graphe.getEchelle()>100)
+                	{
+                		graphe.setEchelle(graphe.getEchelle()-100);
+                	}
                 }
 	}
 
