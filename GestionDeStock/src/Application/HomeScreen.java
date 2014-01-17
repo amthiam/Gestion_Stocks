@@ -39,7 +39,7 @@ public class HomeScreen extends Panel implements ActionListener{
 		
 		
 		//Creation des trois bouttons de lecran d'accueil
-		JLabel lab=new JLabel("G�rer les categories et les produits");
+		JLabel lab=new JLabel("Gerer les categories et les produits");
 		buttonStructureManager = new JButton();
 		buttonStructureManager.setVisible(true);
 		buttonStructureManager.addActionListener(app);
@@ -68,7 +68,7 @@ public class HomeScreen extends Panel implements ActionListener{
 		
 		
 		panel.setBackground(Color.white);
-		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),"choisir l'action � effectuer"));
+		panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.DARK_GRAY),"choisir l'action a effectuer"));
 		panel.add(buttonStructureManager);
 		panel.add(buttonStats);
 		panel.add(loadB);

@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 /**
  * 
  * @author Imen
- * classe pour spécifier l'affichage d'une ligne du tableau
+ * classe pour specifier l'affichage d'une ligne du tableau
  */
 
 

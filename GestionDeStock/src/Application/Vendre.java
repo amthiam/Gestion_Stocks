@@ -85,6 +85,7 @@ public class Vendre extends JFrame implements ActionListener{
                                         try{
                                                 
                                                 produit.setCurrentQuantity(produit.getCurrentQuantity() - quantite);
+                                                produit.setSoldQ(produit.getSoldQ() + quantite);
              
                                                 dispose();
                                         }

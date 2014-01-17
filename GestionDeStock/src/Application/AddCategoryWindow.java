@@ -33,7 +33,7 @@ public class AddCategoryWindow extends JFrame implements ActionListener{
         
         
 		setTitle("Ajout d'une nouvelle Categorie");
-		setSize(500, 200);
+		setSize(500, 80);
 		setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setAlwaysOnTop(true);

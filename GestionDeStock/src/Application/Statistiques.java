@@ -35,25 +35,25 @@ public class Statistiques extends Panel implements ActionListener {
 	Application app;
 	private ModeleDynamiqueObjet modele;
 	private JLabel titre=new  JLabel("Statistiques",JLabel.CENTER);
-	JLabel labelInfo = new JLabel("Pour trier le tableau sï¿½lectionner la colonne corresponadante");
+	JLabel labelInfo = new JLabel("Pour trier le tableau selectionner la colonne correspondante");
 	JLabel labelOrdre = new JLabel("veuillez choisir l'ordre");
 	Font font = new Font("Gabriola",Font.BOLD,50);
 	JButton RetourButton=new JButton("Retour");
 
 	JTable tableau;  
 	JRadioButton yesButton   = new JRadioButton("croissant", true);
-	JRadioButton noButton    = new JRadioButton("dï¿½croissant", false);
+	JRadioButton noButton    = new JRadioButton("decroissant", false);
 
 	ButtonGroup bgroup = new ButtonGroup();
 
 	JScrollPane span=new JScrollPane();
 	int nombreligne=10;
-	JLabel nbligne=new JLabel("Nombre de lignes ï¿½ afficher");
+	JLabel nbligne=new JLabel("Nombre de lignes a afficher");
 	JComboBox comboligne=new JComboBox();
 	Category magasin;
 	DefaultTableCellRenderer ColorTable = new DefaultTableCellRenderer();
 	JPanel labprix=new JPanel();
-	JLabel labelprix=new  JLabel("les plus chï¿½r");
+	JLabel labelprix=new  JLabel("Le plus cher");
 
 
 	public Statistiques(Application app, Category magasin){
@@ -95,7 +95,7 @@ public class Statistiques extends Panel implements ActionListener {
 
 		this.setBackground(Color.white);
 		tableau.setDefaultRenderer(Object.class, new MonCellRenderer());
-		//ajouter les diffï¿½rents ï¿½lements ï¿½ l'interface
+		//ajouter les differents elements a l'interface
 
 		this.add(span);
 

@@ -18,7 +18,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	Simulation simulation;
 	HistoryGraph graphe;
 	Arbre categoriesTree;
-	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB,vente;
+	JButton getBackButton, startStopSimulationB, endSimulationB, addCategoryInGraphB, removeCategoryFromGraphB,vente,plusB,moinsB;
 	ButtonGroup radioGroup;
 	JRadioButton quantitiesButton, benefitButton;
 	JSlider simulationSpeedSlider;
@@ -31,6 +31,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 	JPanel jpanelArbre= new JPanel();  
 	JLabel jlabVitesse=new JLabel();
 	JPanel jpanelRetour= new JPanel();
+        JPanel jpanelEchelle =new JPanel();
        // JPanel jpanelVente= new JPanel();
         JLabel titre=new  JLabel("Simulation de Ventes",JLabel.CENTER);
         Font font = new Font("Gabriola",Font.BOLD,50);
@@ -53,6 +54,9 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		jpanelVitesse.setBackground(Color.white);
 		jpanelRetour.setBackground(Color.white);
 		jpanelRetour.setBounds(20,550,250,50);
+                jpanelEchelle.setBackground(Color.white);
+                jpanelEchelle.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),"Echelle"));
+                jpanelEchelle.setBounds(1025,240,80,100);
                // jpanelVente.setBounds(-30, 500, 350, 150);
                 
 		jpanel.setBounds(20,400,250,125);
@@ -62,6 +66,7 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		this.add(jpanelVitesse);
 		this.add(jpanel);
 		this.add(jpanelRetour);
+                this.add(jpanelEchelle);
                // this.add(jpanelVente);
 		simulation = app.getSim();
 		//Ajout du boutton de retour
@@ -101,6 +106,22 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
 		vente.addActionListener(this);
                 vente.setEnabled(false);
                 vente.addActionListener(this);
+                
+                // Ajout du bouton plusB
+                
+                plusB=new JButton("+");
+                plusB.addActionListener(this);
+                plusB.setEnabled(true);
+                plusB.setVisible(true);
+                jpanelEchelle.add(plusB);
+                
+                // AJout de moinsB
+                 moinsB=new JButton("-");
+                moinsB.addActionListener(this);
+                moinsB.setEnabled(true);
+                moinsB.setVisible(true);
+                jpanelEchelle.add(moinsB);
+                
 		
 		//vente.add(addCategoryInGraphB);
                 jpanelRetour.add(vente);
@@ -223,6 +244,13 @@ public class Stats extends Panel implements ActionListener, ChangeListener, Mous
                 else if(e.getSource() == vente){
                    	Product selectedProduit = (Product)(((DefaultMutableTreeNode) categoriesTree.arbre.getLastSelectedPathComponent()).getUserObject());
                        new Vendre(selectedProduit);   
+                }
+                else if (e.getSource()==plusB){
+                    graphe.setEchelle(graphe.getEchelle() +100);
+                }
+                else if (e.getSource()==moinsB){
+                    if (graphe.getEchelle()>100){
+                    graphe.setEchelle(graphe.getEchelle()-100); }
                 }
 	}
 
