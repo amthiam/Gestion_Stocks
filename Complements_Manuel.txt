@@ -5,4 +5,4 @@ Pour la partie base de donnée nous avons travaillé avec MySQL.
 **Télécharger et installer workbench:http://www.mysql.fr/products/workbench/
 
 2-Lancer wampserver
-3-Importer "pgrou.sql" dans workbench et l'executer.
+3-Importer "Create script_base_donee.sql" dans workbench et l'executer.
