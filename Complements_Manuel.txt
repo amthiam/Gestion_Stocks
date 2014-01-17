@@ -1,0 +1,8 @@
+Pour la partie base de donnée nous avons travaillé avec MySQL.
+
+1-Il faut télécharger et installer les outils suivants:
+**Télecharger et installer le wampserver:http://www.wampserver.com/
+**Télécharger et installer workbench:http://www.mysql.fr/products/workbench/
+
+2-Lancer wampserver
+3-Importer "pgrou.sql" dans workbench et l'executer.
