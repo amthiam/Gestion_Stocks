@@ -19,7 +19,7 @@ public class MonCellRenderer extends DefaultTableCellRenderer {
 		Component cell = super.getTableCellRendererComponent(tableau, value,
 				isSelected, hasFocus, row, column);
 
-		if (row == MaxRow(2, tableau) )
+		if (row == MaxRow(3, tableau) )
 			cell.setBackground(Color.BLUE);
 		else
 			cell.setBackground(Color.WHITE);

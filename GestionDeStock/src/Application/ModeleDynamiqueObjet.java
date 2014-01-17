@@ -2,31 +2,25 @@ package Application;
 
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.table.AbstractTableModel;
 
 
 /**
  * Author : Imen
- * Classe permettant de modéliser un JTable  dynamique contient de produits 
+ * Classe permettant de modÃ©liser un JTable  dynamique contient de produits 
  * 
  * 
  */
 public class ModeleDynamiqueObjet extends AbstractTableModel {
     private final ArrayList<Product> prod = new ArrayList<Product>();
+    Category magasin;
  
-    String[] entetes = {"Id_Article", "Libellé", "Catégorie", "Prix unitaire", "nombre d'articles en stock","nombre d'articles vendus","chiffre d'affaires"};
-    public ModeleDynamiqueObjet() {
+    String[] entetes = {"Id_Article", "LibellÃ©", "CatÃ©gorie", "Prix unitaire", "nombre d'articles en stock","nombre d'articles vendus","chiffre d'affaires"};
+    public ModeleDynamiqueObjet(Category magasin) {
         super();
-        prod.add(new Product("imen", 20.0, 200.0));
-        prod.add(new Product("test", 22.0, 100.0));
-        prod.add(new Product("test2", 23.0, 224.0));
-        prod.add(new Product("blabla", 19.0, 112.0));
-        prod.add(new Product("bbbb", 5.0, 225.0));  prod.add(new Product("blabla", 19.0, 227.0));
-        prod.add(new Product("bbbb", 5.0, 226.0));  prod.add(new Product("blabla", 19.0, 229.0));
-        prod.add(new Product("bbbb", 5.0, 223.0));  prod.add(new Product("blabla", 19.0, 221.0));
-        prod.add(new Product("bbbb", 5.0, 228.0));  prod.add(new Product("blabla", 19.0, 120.0));
-        prod.add(new Product("bbbb", 5.0, 230.0));  prod.add(new Product("blabla", 19.0, 130.0));
+        this.magasin = magasin;
     }
  
     public int getRowCount() {
@@ -42,17 +36,22 @@ public class ModeleDynamiqueObjet extends AbstractTableModel {
     }
  
     public Object getValueAt(int rowIndex, int columnIndex) {
+    	System.out.println(rowIndex + " " + columnIndex);
         switch(columnIndex){
             case 0:
                 return prod.get(rowIndex).getId();
             case 1:
                 return prod.get(rowIndex).getName();
             case 2:
-                return prod.get(rowIndex).getPrice();
+                return magasin.getParentCategory(prod.get(rowIndex)).getName();
             case 3:
-                return prod.get(rowIndex).getCurrentQuantity();
+                return prod.get(rowIndex).getPrice();
             case 4:
                 return prod.get(rowIndex).getCurrentQuantity();
+            case 5:
+            	return prod.get(rowIndex).getSoldQ();
+            case 6:
+            	return prod.get(rowIndex).getSoldQ()*prod.get(rowIndex).getPrice();
             default:
                 return null; //Ne devrait jamais arriver
         }
@@ -69,4 +68,12 @@ public class ModeleDynamiqueObjet extends AbstractTableModel {
  
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
+
+	public void updateTableContent(Category cat) {
+		prod.removeAll(prod);
+		LinkedList<Product> listOfProducts = (LinkedList<Product>) cat.getProducts();
+		for(Product p:listOfProducts){
+			addProduct(p);
+		}
+	}
 }

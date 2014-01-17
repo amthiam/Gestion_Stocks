@@ -79,6 +79,7 @@ public final class Application extends JFrame implements ActionListener {
                                         formerScreen = "Stats Screen";
                                 }
                                 else if(requiredScreen.equals("Statistiques Screen")){
+                                		statistiquesScreen.activate();
                                         this.getContentPane().add(statistiquesScreen);
                                         statsScreen.setVisible(true);
                                         this.setVisible(true);

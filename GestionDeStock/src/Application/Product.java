@@ -13,6 +13,7 @@ public class Product extends Category{
 	protected Double price;
 	protected HashMap<Integer,Double> quantityLevels;
 	protected Double currentQuantity;
+	protected Double soldQ=0.;
 	
 	/**
 	 * Constructeur avec uniquement le nom du produit
@@ -21,7 +22,7 @@ public class Product extends Category{
 	public Product(String n) {
 		super(n);
 		quantityLevels = new HashMap<Integer,Double>();
-		id = idMax+1;
+		id = ++idMax;
 	}
 	
 	/**
@@ -33,7 +34,7 @@ public class Product extends Category{
 		super(n);
 		this.price = p;
 		quantityLevels = new HashMap<Integer,Double>();
-		id = idMax+1;
+		id = ++idMax;
 	}
 	
 	/**
@@ -47,7 +48,7 @@ public class Product extends Category{
 		this.price = p;
 		this.currentQuantity = currentQ;
 		quantityLevels = new HashMap<Integer,Double>();
-		id = idMax+1;
+		id = ++idMax;
 	}
 	
 	/**
@@ -125,6 +126,7 @@ public class Product extends Category{
 		else{
 			this.currentQuantity -= quantity;
 			quantityLevels.put(simulationDate, this.currentQuantity);
+			soldQ+=quantity;
 		}
 	}
 	
@@ -162,6 +164,20 @@ public class Product extends Category{
 		catch(Exception e){
 			return 0;
 		}
+	}
+
+	/**
+	 * @return the soldQ
+	 */
+	public Double getSoldQ() {
+		return soldQ;
+	}
+
+	/**
+	 * @param soldQ the soldQ to set
+	 */
+	public void setSoldQ(Double soldQ) {
+		this.soldQ = soldQ;
 	}
 	
 }
